@@ -1,0 +1,19 @@
+language: java
+env:
+  - PLAY_BRANCH=lab
+before_install:
+  - git clone --depth=1 -b ${PLAY_BRANCH} https://github.com/dmitrie/play.git play-${PLAY_BRANCH}
+  - cd play-${PLAY_BRANCH}/framework
+  - time ant
+  - cd ${TRAVIS_BUILD_DIR}
+script: play-${PLAY_BRANCH}/play build-module
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: AVTYMJnytQrkQ+uL2yY46VNwLd4/q4jZLJfxU3tvacYlYXHMfk7OWI4vER4+VZvu6EoOngLJhisvqeYlA01zznExTbNE1GpxKVm9YDp5Cobay0xTaAYP6Uytk4GBbEOoBMK84wkGwuZRnayndkH/be+8jBfsBUgb3gUVGGw/umnmQfrPgpy52R605daMgbMKvb+pjJ8Ikf0MPqDkNnXJ4K35ejtHr9fhNaKhtEXZvZAIXshSzpNElq5d9GfsJ7ALfONIT+aXEPXm+Du6fKK5ulXp43PgkEaAzZj4Ac0xSYdhUs8KRsm30r4cMNrswH4kqsENf1xWNiEcP89mJAEoWRNcfBJVcSGH2WgslUtyiUALF1VMQAUH2EMZ6ACaqjdtRLZLn0Q3QgvgZxBfAcMSdzbRF0Suew9JtWj9v58orMumz59eQWxPsYCaBcFtHwOmfWmx3qIwF+GK8g2hwajdisi9dT4Gl7NKJZJeowALe9CdTOsCTCi2HG3z3eWLktZycH/rtkIB1l9i+Sfp2uOR9dS1nxZYmAXpMa0e2x2ptbMJHJ5xswixbVF5qEhrVbfKDzxEyY4+XerMsMEGvn/FbdDU8yNaQ9t4HuikWJMveQy8uvIhVKP5IwYoVHO7aQDeRFuZcHlQHg4HE/uTBOIUI9ZgwnPyKT+6zoEvB24xwHw=
+  file_glob: true
+  file: dist/*.zip
+  on:
+    tags: true
+    repo: dmitrie/play-fastergt
